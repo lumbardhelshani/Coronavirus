@@ -7,9 +7,6 @@ package com.lumbardhelshani.coronavirus.Models;
 public class Country {
     private String flag,countryName,casesTxt,todayCasesTxt,deathsTxt,todayDeathsTxt,recoveredTxt,activeTxt,criticalTxt;
 
-    public Country() {
-    }
-
     public Country(String flag, String countryName, String casesTxt, String todayCasesTxt, String deathsTxt, String todayDeathsTxt, String recoveredTxt, String activeTxt, String criticalTxt) {
         this.flag = flag;
         this.countryName = countryName;
