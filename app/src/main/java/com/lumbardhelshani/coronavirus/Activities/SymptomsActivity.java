@@ -10,15 +10,15 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lumbardhelshani.coronavirus.R;
 
-public class DetailCountryActivity extends AppCompatActivity {
+public class SymptomsActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_country);
-    findAllViews();
-
+        setContentView(R.layout.activity_symptoms);
+        findAllViews();
     }
+
     private void findAllViews() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
@@ -36,13 +36,10 @@ public class DetailCountryActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.symptopms:
-                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
-                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
             }
         });
     }
-
 }

@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.lumbardhelshani.coronavirus.Adapters.CountryListAdapter;
 import com.lumbardhelshani.coronavirus.Models.Country;
@@ -40,6 +41,7 @@ public class CountriesActivity extends AppCompatActivity {
     public static List<Country> countryModelsList = new ArrayList<>();
     Country country;
     CountryListAdapter adapter;
+    BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class CountriesActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         loader = findViewById(R.id.loader);
 
-
+        findAllViews();
         getCountryCovidData();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,7 +83,29 @@ public class CountriesActivity extends AppCompatActivity {
         });
     }
 
+    private void findAllViews() {
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setSelectedItemId(R.id.world);
 
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.countries:
+                        return true;
+                    case R.id.world:
+                        startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.symptopms:
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

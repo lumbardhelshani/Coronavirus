@@ -1,10 +1,12 @@
 package com.lumbardhelshani.coronavirus.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.lumbardhelshani.coronavirus.R;
 
@@ -26,6 +29,7 @@ import org.json.JSONObject;
 
 public class WorldStatsActivity extends AppCompatActivity {
     TextView casesTxt,recoveredTxt,criticalTxt,activeTxt,todayCasesTxt,totalDeathsTxt,todayDeathsTxt,affectedCountriesTxt;
+    BottomNavigationView bottomNavigation;
     SimpleArcLoader loader;
     ScrollView scrollViewScr;
     PieChart pieChart;
@@ -41,6 +45,27 @@ public class WorldStatsActivity extends AppCompatActivity {
     }
 
     private void findAllViews() {
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setSelectedItemId(R.id.world);
+
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.countries:
+                        startActivity(new Intent(getApplicationContext(), CountriesActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.world:
+                        return true;
+                    case R.id.symptopms:
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
         casesTxt = findViewById(R.id.casesTxt);
         recoveredTxt = findViewById(R.id.recoveredTxt);
         criticalTxt = findViewById(R.id.criticalTxt);
@@ -56,11 +81,7 @@ public class WorldStatsActivity extends AppCompatActivity {
     }
 
 
-    public void listAllCountries(View view) {
 
-        startActivity(new Intent(getApplicationContext(),CountriesActivity.class));
-
-    }
 
     private void getCovidData(){
 

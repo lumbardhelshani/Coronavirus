@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/world"
+        android:title="World"
+        android:icon="@drawable/ic_world"/>
+
+    <item
+        android:id="@+id/countries"
+        android:title="Countries"
+        android:icon="@drawable/ic_country"/>
+    <item
+        android:id="@+id/symptopms"
+        android:title="Symptoms"
+        android:icon="@drawable/ic_symptoms"/>
+
+</menu>

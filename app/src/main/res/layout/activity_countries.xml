@@ -33,12 +33,27 @@
         android:background="@drawable/edittext_shadow"
         android:drawableLeft="@drawable/ic_search_black_24dp"/>
 
-    <ListView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchEditTxt"
+        android:layout_above="@+id/bottomNavigation"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="10dp"
+
+        app:cardElevation="10dp"
+        app:cardCornerRadius="5dp"
+        >
+        <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/searchEditTxt"
         android:layout_margin="10dp"/>
+    </androidx.cardview.widget.CardView>
+
     <com.leo.simplearcloader.SimpleArcLoader
         android:id="@+id/loader"
         android:layout_width="60dp"
@@ -47,5 +62,17 @@
         android:visibility="visible"
         app:arc_colors="@color/colorGreen"
         android:layout_centerInParent="true"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:itemBackground="@color/colorGray"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
+        android:layout_alignParentBottom="true"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

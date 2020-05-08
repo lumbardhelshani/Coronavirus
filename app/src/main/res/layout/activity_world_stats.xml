@@ -366,9 +366,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
         app:cardElevation="10dp"
 
-        android:layout_above="@+id/seeCountryListBtn"
+        android:layout_above="@+id/bottomNavigation"
 
         app:cardCornerRadius="10dp">
 
@@ -467,18 +468,19 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/seeCountryListBtn"
-        android:layout_width="match_parent"
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:itemBackground="@color/colorGray"
+        app:itemTextColor="@drawable/selector"
+        app:itemIconTint="@drawable/selector"
+        app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"
-        android:layout_margin="20dp"
-        android:background="@color/color_one"
-        android:text="Track countries"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:padding="5dp"
-        android:onClick="listAllCountries"
-        />
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
 
 </RelativeLayout>
