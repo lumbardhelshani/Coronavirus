@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     tools:context=".Activities.CountriesActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/affectedCountryId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Affected Countries"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="28sp"
+        android:textStyle="bold"
+
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" />
+    <EditText
+        android:id="@+id/searchEditTxt"
+        android:layout_below="@+id/affectedCountryId"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:paddingLeft="10dp"
+        android:hint="Search"
+        android:drawablePadding="15dp"
+        android:background="@drawable/edittext_shadow"
+        android:drawableLeft="@drawable/ic_search_black_24dp"/>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/searchEditTxt"
+        android:layout_margin="10dp"/>
+    <com.leo.simplearcloader.SimpleArcLoader
+        android:id="@+id/loader"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:arc_style="simple_arc"
+        android:visibility="visible"
+        app:arc_colors="@color/colorGreen"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

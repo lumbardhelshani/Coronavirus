@@ -27,7 +27,7 @@ public class Country {
         this.flag = flag;
     }
 
-    public String getCountry() {
+    public String getCountryName() {
         return countryName;
     }
 
