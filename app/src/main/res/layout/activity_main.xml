@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".Activities.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_above="@+id/seeGlobalStats"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/covid_logo"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coronavirus"
+            android:fontFamily="serif"
+            android:textSize="40sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_coronavirus"
+            android:fontFamily="serif"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorBlack"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/seeGlobalStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="See World Statistics"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:textColor="@color/colorGray"
+            android:textFontWeight="@android:integer/config_longAnimTime"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/btnSeeWorldStats"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
+            android:drawableRight="@drawable/ic_forward"
+            android:onClick="seeWorldStats"/>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
