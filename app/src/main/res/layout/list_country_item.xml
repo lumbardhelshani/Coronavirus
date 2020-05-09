@@ -34,7 +34,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="Country Name"
-                android:fontFamily="@font/"
+                android:fontFamily="sans-serif-condensed"
                 android:textSize="20sp"
                 android:textStyle="bold" />
             <LinearLayout
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="Cases"
-                    android:fontFamily="@font/walkway_oblique"
+                    android:fontFamily="serif-monospace"
                     android:textAlignment="textEnd"
                     android:textColor="@color/colorGray"
                     android:textSize="20sp"
@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="0"
-                    android:fontFamily="@font/walkway_oblique_bold"
+                    android:fontFamily="serif-monospace"
                     android:textAlignment="textEnd"
                     android:textSize="20sp"
                     android:textColor="@color/colorRed"
