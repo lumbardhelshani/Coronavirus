@@ -16,4 +16,9 @@
 
     <color name="color_one">#fb7268</color>
 
+    <color name="colorLightBlue">#ccffff</color>
+    <color name="colorLighterBlue">#e6ffff</color>
+    <color name="colorDarkBlue">#003333</color>
+    <color name="colorLightSky">#99ffff</color>
+
 </resources>

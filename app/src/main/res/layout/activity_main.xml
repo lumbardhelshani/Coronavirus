@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorLighterBlue"
     tools:context=".Activities.MainActivity">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Coronavirus"
-            android:fontFamily="serif"
+            android:fontFamily=""
             android:textSize="40sp"
             android:layout_marginTop="10dp"
             android:textColor="@color/colorBlack"
@@ -52,7 +52,7 @@
         android:gravity="center"
 
         android:layout_alignParentBottom="true"
-        android:background="@color/colorWhite"
+        android:background="@color/colorLightSky"
         android:orientation="horizontal" >
         <TextView
             android:layout_width="match_parent"
@@ -72,10 +72,10 @@
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorDarkBlue"
             android:textColor="@color/colorWhite"
             android:drawableRight="@drawable/ic_forward"
-            android:onClick="seeWorldStats"/>
+            android:onClick="seeWorldStats" />
 
 
 
