@@ -16,7 +16,6 @@
         android:textAllCaps="true"
         android:textSize="28sp"
         android:textStyle="bold"
-
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal" />
     <EditText

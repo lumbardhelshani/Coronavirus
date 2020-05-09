@@ -37,9 +37,7 @@ public class WorldStatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_stats);
-
         findAllViews();
-
         getCovidData();
 
     }
@@ -47,7 +45,6 @@ public class WorldStatsActivity extends AppCompatActivity {
     private void findAllViews() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
-
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -80,24 +77,16 @@ public class WorldStatsActivity extends AppCompatActivity {
         pieChart = findViewById(R.id.piechart);
     }
 
-
-
-
     private void getCovidData(){
-
         String url  = "https://corona.lmao.ninja/v2/all/";
-
         loader.start();
-
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
-
                             fillViewsWithData(jsonObject);
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -105,8 +94,6 @@ public class WorldStatsActivity extends AppCompatActivity {
                             loader.setVisibility(View.GONE);
                             loader.setVisibility(View.VISIBLE);
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -117,8 +104,6 @@ public class WorldStatsActivity extends AppCompatActivity {
                 Toast.makeText(WorldStatsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
 
     }
@@ -132,14 +117,11 @@ public class WorldStatsActivity extends AppCompatActivity {
         totalDeathsTxt.setText(jsonObject.getString("deaths"));
         todayDeathsTxt.setText(jsonObject.getString("todayDeaths"));
         affectedCountriesTxt.setText(jsonObject.getString("affectedCountries"));
-
-
         pieChart.addPieSlice(new PieModel("Cases",Integer.parseInt(casesTxt.getText().toString()), Color.parseColor("#FDD835")));
         pieChart.addPieSlice(new PieModel("Recoverd",Integer.parseInt(recoveredTxt.getText().toString()), Color.parseColor("#43A047")));
         pieChart.addPieSlice(new PieModel("Deaths",Integer.parseInt(totalDeathsTxt.getText().toString()), Color.parseColor("#E53935")));
         pieChart.addPieSlice(new PieModel("Active",Integer.parseInt(activeTxt.getText().toString()), Color.parseColor("#3949AB")));
         pieChart.startAnimation();
-
         loader.stop();
         loader.setVisibility(View.GONE);
         scrollViewScr.setVisibility(View.VISIBLE);

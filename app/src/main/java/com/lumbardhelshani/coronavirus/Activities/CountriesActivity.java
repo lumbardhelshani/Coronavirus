@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CountriesActivity extends AppCompatActivity {
-
     EditText searchEditTxt;
     ListView listView;
     SimpleArcLoader loader;
@@ -50,35 +49,30 @@ public class CountriesActivity extends AppCompatActivity {
         searchEditTxt = findViewById(R.id.searchEditTxt);
         listView = findViewById(R.id.listView);
         loader = findViewById(R.id.loader);
-
         findAllViews();
         getCountryCovidData();
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getApplicationContext(),DetailCountryActivity.class).putExtra("position",position));
+                Intent intent = new Intent(getApplicationContext(), DetailCountryActivity.class);
+                intent.putExtra("position", position);
+                startActivity(intent);
             }
         });
-
 
         searchEditTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 adapter.getFilter().filter(s);
                 adapter.notifyDataSetChanged();
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -86,20 +80,19 @@ public class CountriesActivity extends AppCompatActivity {
     private void findAllViews() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
-
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.countries:
                         return true;
                     case R.id.world:
-                        startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class ));
-                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.symptopms:
-                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
-                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;
@@ -109,29 +102,23 @@ public class CountriesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
     }
 
     private void getCountryCovidData() {
-
-        String url  = "https://corona.lmao.ninja/v2/countries/";
-
+        String url = "https://corona.lmao.ninja/v2/countries/";
         loader.start();
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-
-                            for(int i=0;i<jsonArray.length();i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                                 String countryName = jsonObject.getString("country");
                                 String cases = jsonObject.getString("cases");
                                 String todayCases = jsonObject.getString("todayCases");
@@ -140,32 +127,21 @@ public class CountriesActivity extends AppCompatActivity {
                                 String recovered = jsonObject.getString("recovered");
                                 String active = jsonObject.getString("active");
                                 String critical = jsonObject.getString("critical");
-
                                 JSONObject object = jsonObject.getJSONObject("countryInfo");
                                 String flagUrl = object.getString("flag");
-
-                                country = new Country(flagUrl,countryName,cases,todayCases,deaths,todayDeaths,recovered,active,critical);
+                                country = new Country(flagUrl, countryName, cases, todayCases, deaths, todayDeaths, recovered, active, critical);
                                 countryModelsList.add(country);
-
-
                             }
-
-                            adapter = new CountryListAdapter(CountriesActivity.this,countryModelsList);
+                            adapter = new CountryListAdapter(CountriesActivity.this, countryModelsList);
                             listView.setAdapter(adapter);
                             loader.stop();
                             loader.setVisibility(View.GONE);
-
-
-
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                             loader.stop();
                             loader.setVisibility(View.GONE);
                         }
-
 
                     }
                 }, new Response.ErrorListener() {
@@ -176,10 +152,7 @@ public class CountriesActivity extends AppCompatActivity {
                 Toast.makeText(CountriesActivity.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
-
-
     }
 }
