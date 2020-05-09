@@ -43,6 +43,22 @@ public class WorldStatsActivity extends AppCompatActivity {
     }
 
     private void findAllViews() {
+        setUpBottomNavigation();
+        casesTxt = findViewById(R.id.casesTxt);
+        recoveredTxt = findViewById(R.id.recoveredTxt);
+        criticalTxt = findViewById(R.id.criticalTxt);
+        activeTxt = findViewById(R.id.activeTxt);
+        todayCasesTxt = findViewById(R.id.todayCasesTxt);
+        totalDeathsTxt = findViewById(R.id.totalDeathsTxt);
+        todayCasesTxt = findViewById(R.id.todayCasesTxt);
+        todayDeathsTxt = findViewById(R.id.todayDeathsTxt);
+        affectedCountriesTxt = findViewById(R.id.tvAffectedCountries);
+        loader = findViewById(R.id.loader);
+        scrollViewScr = findViewById(R.id.scrollStatsScr);
+        pieChart = findViewById(R.id.piechart);
+    }
+
+    private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,18 +79,6 @@ public class WorldStatsActivity extends AppCompatActivity {
                 return false;
             }
         });
-        casesTxt = findViewById(R.id.casesTxt);
-        recoveredTxt = findViewById(R.id.recoveredTxt);
-        criticalTxt = findViewById(R.id.criticalTxt);
-        activeTxt = findViewById(R.id.activeTxt);
-        todayCasesTxt = findViewById(R.id.todayCasesTxt);
-        totalDeathsTxt = findViewById(R.id.totalDeathsTxt);
-        todayCasesTxt = findViewById(R.id.todayCasesTxt);
-        todayDeathsTxt = findViewById(R.id.todayDeathsTxt);
-        affectedCountriesTxt = findViewById(R.id.tvAffectedCountries);
-        loader = findViewById(R.id.loader);
-        scrollViewScr = findViewById(R.id.scrollStatsScr);
-        pieChart = findViewById(R.id.piechart);
     }
 
     private void getCovidData(){

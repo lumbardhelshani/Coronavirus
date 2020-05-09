@@ -49,7 +49,7 @@ public class CountriesActivity extends AppCompatActivity {
         searchEditTxt = findViewById(R.id.searchEditTxt);
         listView = findViewById(R.id.listView);
         loader = findViewById(R.id.loader);
-        findAllViews();
+        setUpBottomNavigation();
         getCountryCovidData();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -77,7 +77,7 @@ public class CountriesActivity extends AppCompatActivity {
         });
     }
 
-    private void findAllViews() {
+    private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

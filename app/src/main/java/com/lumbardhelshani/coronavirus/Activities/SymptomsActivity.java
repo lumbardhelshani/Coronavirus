@@ -16,10 +16,10 @@ public class SymptomsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptoms);
-        findAllViews();
+        setUpBottomNavigation();
     }
 
-    private void findAllViews() {
+    private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
 

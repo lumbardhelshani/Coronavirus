@@ -4,7 +4,224 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.SymptomsActivity">
+    tools:context=".Activities.SymptomsActivity"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Symptoms"
+        android:textSize="30dp"
+        android:tooltipText="Symptoms of Covid-19"/>
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false">
+
+        <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        app:cardElevation="6dp"
+        app:cardCornerRadius="12dp"
+        android:layout_margin="12dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <ImageView
+                android:src="@drawable/cough"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Cough"
+                android:textSize="16dp"
+                android:textColor="@color/colorGray"/>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:src="@drawable/difficult_breathing"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Difficul Breath"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorGray"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:src="@drawable/fever"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Fever"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorGray"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:src="@drawable/chills"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Chills"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorGray"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:src="@drawable/muscle_pain"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Muscle Pain"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorGray"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            app:cardElevation="6dp"
+            app:cardCornerRadius="12dp"
+            android:layout_margin="12dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:src="@drawable/sore_throat"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sore Throat"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorGray"/>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </GridLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"

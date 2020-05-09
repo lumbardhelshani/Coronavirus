@@ -31,28 +31,7 @@ public class DetailCountryActivity extends AppCompatActivity {
 
     }
     private void findAllViews() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setSelectedItemId(R.id.world);
-        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.countries:
-                        startActivity(new Intent(getApplicationContext(), CountriesActivity.class ));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.world:
-                        startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class ));
-                        overridePendingTransition(0,0);
-                        return true;
-                    case R.id.symptopms:
-                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
-                        overridePendingTransition(0,0);
-                        return true;
-                }
-                return false;
-            }
-        });
+        setUpBottomNavigation();
         countryNameTxt = findViewById(R.id.countryNameTxt);
         casesTxt = findViewById(R.id.countryCasesTxt);
         recoveredTxt = findViewById(R.id.recoveredTxt);
@@ -84,6 +63,31 @@ public class DetailCountryActivity extends AppCompatActivity {
         barChart.addBar(new BarModel("Deaths",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getDeaths()),redColorValue));
         barChart.startAnimation();
 
+    }
+
+    private void setUpBottomNavigation() {
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        bottomNavigation.setSelectedItemId(R.id.world);
+        bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.countries:
+                        startActivity(new Intent(getApplicationContext(), CountriesActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.world:
+                        startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.symptopms:
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
