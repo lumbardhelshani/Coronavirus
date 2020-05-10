@@ -135,6 +135,7 @@ public class CountriesActivity extends AppCompatActivity {
                                 String flagUrl = object.getString("flag");
                                 country = new Country(flagUrl, countryName, cases, todayCases, deaths, todayDeaths, recovered, active, critical);
                                 countryModelsList.add(country);
+
                             }
                             adapter = new CountryListAdapter(CountriesActivity.this, countryModelsList);
                             listView.setAdapter(adapter);

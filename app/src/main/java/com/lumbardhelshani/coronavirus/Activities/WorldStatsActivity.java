@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,18 +28,29 @@ import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class WorldStatsActivity extends AppCompatActivity {
     TextView casesTxt,recoveredTxt,criticalTxt,activeTxt,todayCasesTxt,totalDeathsTxt,todayDeathsTxt,affectedCountriesTxt;
     BottomNavigationView bottomNavigation;
     SimpleArcLoader loader;
     ScrollView scrollViewScr;
     PieChart pieChart;
+    private String cases;
+    private Date systemDate = Calendar.getInstance().getTime();
+    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+    String date = df.format(systemDate);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_stats);
         findAllViews();
         getCovidData();
+        putData();
 
     }
 
@@ -94,6 +106,7 @@ public class WorldStatsActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
+                            cases = jsonObject.getString("cases");
                             fillViewsWithData(jsonObject);
 
                         } catch (JSONException e) {
@@ -133,5 +146,45 @@ public class WorldStatsActivity extends AppCompatActivity {
         loader.stop();
         loader.setVisibility(View.GONE);
         scrollViewScr.setVisibility(View.VISIBLE);
+    }
+
+
+    private void putData(){
+        String url  = getResources().getString(R.string.urlWorld);
+        loader.start();
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String success = jsonObject.getString("success");
+                    if(success.equals("1")){
+                        Toast.makeText(WorldStatsActivity.this, "Inserted Data", Toast.LENGTH_SHORT);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(WorldStatsActivity.this, "Error in inserting data", Toast.LENGTH_SHORT);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(WorldStatsActivity.this, "Something went wrong to insert data!", Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("cases" , cases);
+                params.put("date", date);
+                return params;
+            }
+        };
+        requestQueue.add(request);
+
     }
 }
