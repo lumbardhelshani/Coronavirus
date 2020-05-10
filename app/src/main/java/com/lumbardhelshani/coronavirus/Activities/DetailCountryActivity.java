@@ -84,6 +84,10 @@ public class DetailCountryActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
                         overridePendingTransition(0,0);
                         return true;
+                    case R.id.healthcare:
+                        startActivity(new Intent(getApplicationContext(), HealthCareActivity.class ));
+                        overridePendingTransition(0,0);
+                        return true;
                 }
                 return false;
             }

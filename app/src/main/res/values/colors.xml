@@ -8,14 +8,11 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorGreen">#43A047</color>
     <color name="colorGray">#808080</color>
-
     <color name="totalCases">#FDD835</color>
     <color name="recoverd">#43A047</color>
     <color name="deaths">#E53935</color>
     <color name="activeCases">#3949AB</color>
-
     <color name="color_one">#fb7268</color>
-
     <color name="colorLightBlue">#ccffff</color>
     <color name="colorLighterBlue">#e6ffff</color>
     <color name="colorDarkBlue">#003333</color>

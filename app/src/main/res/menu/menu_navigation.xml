@@ -3,16 +3,19 @@
     <item
         android:id="@+id/world"
         android:title="World"
-        android:icon="@drawable/ic_world"
-        />
+        android:icon="@drawable/world" />
 
     <item
         android:id="@+id/countries"
         android:title="Countries"
-        android:icon="@drawable/ic_country"/>
+        android:icon="@drawable/flag"/>
     <item
         android:id="@+id/symptopms"
         android:title="Symptoms"
-        android:icon="@drawable/ic_symptoms"/>
+        android:icon="@drawable/symptoms"/>
+    <item
+        android:id="@+id/healthcare"
+        android:title="Healthcare"
+        android:icon="@drawable/health" />
 
 </menu>

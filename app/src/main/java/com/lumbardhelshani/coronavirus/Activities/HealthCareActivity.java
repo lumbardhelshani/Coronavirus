@@ -10,19 +10,18 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lumbardhelshani.coronavirus.R;
 
-public class SymptomsActivity extends AppCompatActivity {
+public class HealthCareActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_symptoms);
+        setContentView(R.layout.activity_health_care);
         setUpBottomNavigation();
     }
 
     private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
-
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -36,10 +35,10 @@ public class SymptomsActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.symptopms:
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
+                        overridePendingTransition(0,0);
                         return true;
                     case R.id.healthcare:
-                        startActivity(new Intent(getApplicationContext(), HealthCareActivity.class ));
-                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
