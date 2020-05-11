@@ -41,12 +41,13 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 
 public class CountriesActivity extends AppCompatActivity {
     @BindView(R.id.searchEditTxt) EditText searchEditTxt;
-    ListView listView;
+    @BindView(R.id.listView) ListView listView;
     @BindView(R.id.loader) SimpleArcLoader loader;
     public static List<Country> countryModelsList = new ArrayList<>();
     Country country;
@@ -59,6 +60,7 @@ public class CountriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
+        ButterKnife.bind(this);
         setUpBottomNavigation();
         getCountryCovidData();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
