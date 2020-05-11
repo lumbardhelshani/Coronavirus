@@ -17,14 +17,16 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
+import com.lumbardhelshani.coronavirus.Models.WorldCovidData;
 import com.lumbardhelshani.coronavirus.R;
+import com.lumbardhelshani.coronavirus.Retrofit.CovidService;
+import com.lumbardhelshani.coronavirus.Retrofit.RetrofitClient;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -39,8 +41,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class WorldStatsActivity extends AppCompatActivity {
-    TextView casesTxt,recoveredTxt,criticalTxt,activeTxt,todayCasesTxt,totalDeathsTxt,todayDeathsTxt,affectedCountriesTxt;
+    TextView casesTxt, recoveredTxt, criticalTxt, activeTxt, todayCasesTxt, totalDeathsTxt, todayDeathsTxt, affectedCountriesTxt;
     BottomNavigationView bottomNavigation;
     SimpleArcLoader loader;
     ScrollView scrollViewScr;
@@ -51,16 +57,14 @@ public class WorldStatsActivity extends AppCompatActivity {
     String date = df.format(systemDate);
     private Collator MySingleton;
 
+    CovidService covidService = RetrofitClient.getRetrofitInstance().create(CovidService.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_stats);
         findAllViews();
         getCovidData();
-
-            putData();
-
-
     }
 
     private void findAllViews() {
@@ -85,20 +89,20 @@ public class WorldStatsActivity extends AppCompatActivity {
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.countries:
-                        startActivity(new Intent(getApplicationContext(), CountriesActivity.class ));
-                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.world:
                         return true;
                     case R.id.symptopms:
-                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class ));
-                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.healthcare:
-                        startActivity(new Intent(getApplicationContext(), HealthCareActivity.class ));
-                        overridePendingTransition(0,0);
+                        startActivity(new Intent(getApplicationContext(), HealthCareActivity.class));
+                        overridePendingTransition(0, 0);
                         return true;
                 }
                 return false;
@@ -106,61 +110,48 @@ public class WorldStatsActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private void getCovidData(){
-        String url  = "https://corona.lmao.ninja/v2/all/";
+    private void getCovidData() {
+        Call<WorldCovidData> call = covidService.getWorldCovidStatistics();
         loader.start();
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            cases = jsonObject.getString("cases");
-                            fillViewsWithData(jsonObject);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            loader.stop();
-                            loader.setVisibility(View.GONE);
-                            loader.setVisibility(View.VISIBLE);
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        call.enqueue(new Callback<WorldCovidData>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onResponse(Call<WorldCovidData> call, Response<WorldCovidData> response) {
+                cases = String.valueOf(response.body().getCases());
+                fillViewsWithData(response.body());
+                putData(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<WorldCovidData> call, Throwable t) {
                 loader.stop();
                 loader.setVisibility(View.GONE);
                 scrollViewScr.setVisibility(View.VISIBLE);
                 Toast.makeText(WorldStatsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
-        requestQueue.add(request);
 
     }
 
-    private void fillViewsWithData(JSONObject jsonObject) throws JSONException {
-        casesTxt.setText(jsonObject.getString("cases"));
-        recoveredTxt.setText(jsonObject.getString("recovered"));
-        criticalTxt.setText(jsonObject.getString("critical"));
-        activeTxt.setText(jsonObject.getString("active"));
-        todayCasesTxt.setText(jsonObject.getString("todayCases"));
-        totalDeathsTxt.setText(jsonObject.getString("deaths"));
-        todayDeathsTxt.setText(jsonObject.getString("todayDeaths"));
-        affectedCountriesTxt.setText(jsonObject.getString("affectedCountries"));
-        pieChart.addPieSlice(new PieModel("Cases",Integer.parseInt(casesTxt.getText().toString()), Color.parseColor("#FDD835")));
-        pieChart.addPieSlice(new PieModel("Recoverd",Integer.parseInt(recoveredTxt.getText().toString()), Color.parseColor("#43A047")));
-        pieChart.addPieSlice(new PieModel("Deaths",Integer.parseInt(totalDeathsTxt.getText().toString()), Color.parseColor("#E53935")));
-        pieChart.addPieSlice(new PieModel("Active",Integer.parseInt(activeTxt.getText().toString()), Color.parseColor("#3949AB")));
+    private void fillViewsWithData(WorldCovidData worldCovidData) {
+        casesTxt.setText(String.valueOf(worldCovidData.getCases()));
+        recoveredTxt.setText(String.valueOf(worldCovidData.getRecovered()));
+        criticalTxt.setText(String.valueOf(worldCovidData.getCritical()));
+        activeTxt.setText(String.valueOf(worldCovidData.getActive()));
+        todayCasesTxt.setText(String.valueOf(worldCovidData.getTodayCases()));
+        totalDeathsTxt.setText(String.valueOf(worldCovidData.getDeaths()));
+        todayDeathsTxt.setText(String.valueOf(worldCovidData.getTodayDeaths()));
+        affectedCountriesTxt.setText(String.valueOf(worldCovidData.getAffectedCountries()));
+        pieChart.addPieSlice(new PieModel("Cases", Integer.parseInt(casesTxt.getText().toString()), Color.parseColor("#FDD835")));
+        pieChart.addPieSlice(new PieModel("Recoverd", Integer.parseInt(recoveredTxt.getText().toString()), Color.parseColor("#43A047")));
+        pieChart.addPieSlice(new PieModel("Deaths", Integer.parseInt(totalDeathsTxt.getText().toString()), Color.parseColor("#E53935")));
+        pieChart.addPieSlice(new PieModel("Active", Integer.parseInt(activeTxt.getText().toString()), Color.parseColor("#3949AB")));
         pieChart.startAnimation();
         loader.stop();
         loader.setVisibility(View.GONE);
         scrollViewScr.setVisibility(View.VISIBLE);
     }
 
-
-    private void putData(){
+    private void putData(WorldCovidData model) {
 
      /*   try{
             Log.d("Debug" , "HINI NE METODEEE");
@@ -183,7 +174,7 @@ public class WorldStatsActivity extends AppCompatActivity {
 
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            // TODO: Handle error
+
                             Log.d("DEBUG" , "ERROROnResponse " + error.getMessage());
                             Toast.makeText(WorldStatsActivity.this, "OnError",Toast.LENGTH_SHORT);
                         }
@@ -199,9 +190,7 @@ public class WorldStatsActivity extends AppCompatActivity {
 */
 
 
-
-
-        String url  = getResources().getString(R.string.urlWorld);
+        String url = getResources().getString(R.string.urlWorld);
         
         /*RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<JsonObjectRequest>() {

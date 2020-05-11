@@ -89,7 +89,7 @@ public class DetailCountryActivity extends AppCompatActivity {
 
     private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setSelectedItemId(R.id.world);
+        bottomNavigation.setSelectedItemId(R.id.countries);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

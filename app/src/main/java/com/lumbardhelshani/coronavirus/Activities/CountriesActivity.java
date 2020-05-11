@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +25,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.lumbardhelshani.coronavirus.Adapters.CountryListAdapter;
 import com.lumbardhelshani.coronavirus.Models.Country;
+import com.lumbardhelshani.coronavirus.Models.CountryCovidData;
 import com.lumbardhelshani.coronavirus.R;
+import com.lumbardhelshani.coronavirus.Retrofit.CovidService;
+import com.lumbardhelshani.coronavirus.Retrofit.RetrofitClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,22 +40,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+
 public class CountriesActivity extends AppCompatActivity {
-    EditText searchEditTxt;
+    @BindView(R.id.searchEditTxt) EditText searchEditTxt;
     ListView listView;
-    SimpleArcLoader loader;
+    @BindView(R.id.loader) SimpleArcLoader loader;
     public static List<Country> countryModelsList = new ArrayList<>();
     Country country;
     CountryListAdapter adapter;
-    BottomNavigationView bottomNavigation;
+    @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
+
+    CovidService covidService = RetrofitClient.getRetrofitInstance().create(CovidService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countries);
-        searchEditTxt = findViewById(R.id.searchEditTxt);
-        listView = findViewById(R.id.listView);
-        loader = findViewById(R.id.loader);
         setUpBottomNavigation();
         getCountryCovidData();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,8 +88,7 @@ public class CountriesActivity extends AppCompatActivity {
     }
 
     private void setUpBottomNavigation() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setSelectedItemId(R.id.world);
+        bottomNavigation.setSelectedItemId(R.id.countries);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -115,90 +121,41 @@ public class CountriesActivity extends AppCompatActivity {
     }
 
     private void getCountryCovidData() {
-        String url = "https://corona.lmao.ninja/v2/countries/";
-        loader.start();
-        StringRequest request = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
 
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                String countryName = jsonObject.getString("country");
-                                String cases = jsonObject.getString("cases");
-                                String todayCases = jsonObject.getString("todayCases");
-                                String deaths = jsonObject.getString("deaths");
-                                String todayDeaths = jsonObject.getString("todayDeaths");
-                                String recovered = jsonObject.getString("recovered");
-                                String active = jsonObject.getString("active");
-                                String critical = jsonObject.getString("critical");
-                                JSONObject object = jsonObject.getJSONObject("countryInfo");
-                                String flagUrl = object.getString("flag");
-                                country = new Country(flagUrl, countryName, cases, todayCases, deaths, todayDeaths, recovered, active, critical);
-                                //country.setPreviousCases(getPreviousCases(countryName));
-                                countryModelsList.add(country);
+        Call<List<CountryCovidData>> call = covidService.getCountriesStatistics();
 
-                            }
-                            adapter = new CountryListAdapter(CountriesActivity.this, countryModelsList);
-                            listView.setAdapter(adapter);
-                            loader.stop();
-                            loader.setVisibility(View.GONE);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            loader.stop();
-                            loader.setVisibility(View.GONE);
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
+        call.enqueue(new Callback<List<CountryCovidData>>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onResponse(Call<List<CountryCovidData>> call, retrofit2.Response<List<CountryCovidData>> response) {
+                for (int i = 0; i < response.body().size(); i++) {
+
+                    CountryCovidData model = response.body().get(i);
+                    String countryName = model.getCountry();
+                    String cases = String.valueOf(model.getCases());
+                    String todayCases = String.valueOf(model.getTodayCases());
+                    String deaths = String.valueOf(model.getDeaths());
+                    String todayDeaths = String.valueOf(model.getTodayDeaths());
+                    String recovered = String.valueOf(model.getRecovered());
+                    String active = String.valueOf(model.getActive());
+                    String critical = String.valueOf(model.getCritical());
+                    String flagUrl = model.getCountryInfo().getFlag();
+                    country = new Country(flagUrl, countryName, cases, todayCases, deaths, todayDeaths, recovered, active, critical);
+                    countryModelsList.add(country);
+
+                }
+                adapter = new CountryListAdapter(CountriesActivity.this, countryModelsList);
+                listView.setAdapter(adapter);
+                loader.stop();
+                loader.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryCovidData>> call, Throwable t) {
                 loader.stop();
                 loader.setVisibility(View.GONE);
                 Toast.makeText(CountriesActivity.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
-
-    private void getPreviousCases(String countryName){
-
-        String url = "https://covid-api.com/api/reports?date="+ getYesterdayDateString()+"&q="+countryName;
-
-        StringRequest request = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                               // JSONArray array = new JSONArray(response);
-                                JSONObject jsonObject = new JSONObject(response);
-                                String previous = jsonObject.getString("confirmed");
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(CountriesActivity.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(request);
-    }
-
-    private static String getYesterdayDateString() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-        return dateFormat.format(cal.getTime());
     }
 }

@@ -21,7 +21,7 @@ public class SymptomsActivity extends AppCompatActivity {
 
     private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
-        bottomNavigation.setSelectedItemId(R.id.world);
+        bottomNavigation.setSelectedItemId(R.id.symptopms);
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
