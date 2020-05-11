@@ -74,8 +74,7 @@
             android:layout_margin="5dp"
             android:background="@color/colorDarkBlue"
             android:textColor="@color/colorWhite"
-            android:drawableRight="@drawable/ic_forward"
-            android:onClick="seeWorldStats" />
+            android:drawableRight="@drawable/ic_forward" />
 
 
 

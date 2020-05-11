@@ -41,21 +41,25 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WorldStatsActivity extends AppCompatActivity {
-    TextView casesTxt, recoveredTxt, criticalTxt, activeTxt, todayCasesTxt, totalDeathsTxt, todayDeathsTxt, affectedCountriesTxt;
-    BottomNavigationView bottomNavigation;
-    SimpleArcLoader loader;
-    ScrollView scrollViewScr;
-    PieChart pieChart;
-    private String cases;
-    private Date systemDate = Calendar.getInstance().getTime();
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    String date = df.format(systemDate);
-    private Collator MySingleton;
+    @BindView(R.id.casesTxt) TextView casesTxt;
+    @BindView(R.id.recoveredTxt) TextView recoveredTxt;
+    @BindView(R.id.criticalTxt) TextView criticalTxt;
+    @BindView(R.id.activeTxt) TextView activeTxt;
+    @BindView(R.id.todayCasesTxt) TextView todayCasesTxt;
+    @BindView(R.id.totalDeathsTxt) TextView totalDeathsTxt;
+    @BindView(R.id.todayDeathsTxt) TextView todayDeathsTxt;
+    @BindView(R.id.affectedCountriesTxt) TextView affectedCountriesTxt;
+    @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
+    @BindView(R.id.loader) SimpleArcLoader loader;
+    @BindView(R.id.scrollStatsScr) ScrollView scrollViewScr;
+    @BindView(R.id.piechart) PieChart pieChart;
 
     CovidService covidService = RetrofitClient.getRetrofitInstance().create(CovidService.class);
 
@@ -63,28 +67,12 @@ public class WorldStatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_stats);
-        findAllViews();
+        ButterKnife.bind(this);
+        setUpBottomNavigation();
         getCovidData();
     }
 
-    private void findAllViews() {
-        setUpBottomNavigation();
-        casesTxt = findViewById(R.id.casesTxt);
-        recoveredTxt = findViewById(R.id.recoveredTxt);
-        criticalTxt = findViewById(R.id.criticalTxt);
-        activeTxt = findViewById(R.id.activeTxt);
-        todayCasesTxt = findViewById(R.id.todayCasesTxt);
-        totalDeathsTxt = findViewById(R.id.totalDeathsTxt);
-        todayCasesTxt = findViewById(R.id.todayCasesTxt);
-        todayDeathsTxt = findViewById(R.id.todayDeathsTxt);
-        affectedCountriesTxt = findViewById(R.id.tvAffectedCountries);
-        loader = findViewById(R.id.loader);
-        scrollViewScr = findViewById(R.id.scrollStatsScr);
-        pieChart = findViewById(R.id.piechart);
-    }
-
     private void setUpBottomNavigation() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.world);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -116,7 +104,6 @@ public class WorldStatsActivity extends AppCompatActivity {
         call.enqueue(new Callback<WorldCovidData>() {
             @Override
             public void onResponse(Call<WorldCovidData> call, Response<WorldCovidData> response) {
-                cases = String.valueOf(response.body().getCases());
                 fillViewsWithData(response.body());
                 putData(response.body());
             }
@@ -149,6 +136,13 @@ public class WorldStatsActivity extends AppCompatActivity {
         loader.stop();
         loader.setVisibility(View.GONE);
         scrollViewScr.setVisibility(View.VISIBLE);
+    }
+
+    private String getTodayDate(){
+        Date systemDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(systemDate);
+        return date;
     }
 
     private void putData(WorldCovidData model) {

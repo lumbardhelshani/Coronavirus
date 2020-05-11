@@ -10,19 +10,22 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lumbardhelshani.coronavirus.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SymptomsActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigation;
+    @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_symptoms);
+        ButterKnife.bind(this);
         setUpBottomNavigation();
     }
 
     private void setUpBottomNavigation() {
         bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.symptopms);
-
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

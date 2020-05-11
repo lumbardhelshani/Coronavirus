@@ -90,6 +90,7 @@ public class CountriesActivity extends AppCompatActivity {
     }
 
     private void setUpBottomNavigation() {
+
         bottomNavigation.setSelectedItemId(R.id.countries);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

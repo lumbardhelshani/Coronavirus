@@ -329,10 +329,11 @@
                         android:text="Affected Countries"
                         android:textSize="18sp"/>
                     <TextView
+                        android:id="@+id/affectedCountriesTxt"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:id="@+id/tvAffectedCountries"
+
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
                         android:textColor="@color/color_one"

@@ -3,7 +3,6 @@ package com.lumbardhelshani.coronavirus.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,14 +17,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lumbardhelshani.coronavirus.R;
 
 import org.eazegraph.lib.charts.BarChart;
-import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.BarModel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,33 +31,36 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class DetailCountryActivity extends AppCompatActivity {
-    BarChart barChart;
-    private  int countryPosition;
-    TextView casesTxt,recoveredTxt,criticalTxt,activeTxt,todayCasesTxt,totalDeathsTxt,todayDeathsTxt, detailsOfTxt;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    BottomNavigationView bottomNavigation;
-    ImageView covidSituation;
+public class DetailCountryActivity extends AppCompatActivity {
+    @BindView(R.id.barChart) BarChart barChart;
+    @BindView(R.id.countryCasesTxt) TextView casesTxt;
+    @BindView(R.id.recoveredTxt) TextView recoveredTxt;
+    @BindView(R.id.criticalTxt) TextView criticalTxt;
+    @BindView(R.id.activeTxt) TextView activeTxt;
+    @BindView(R.id.todayCasesTxt) TextView todayCasesTxt;
+    @BindView(R.id.deathsTxt) TextView totalDeathsTxt;
+    @BindView(R.id.todayDeathsTxt) TextView todayDeathsTxt;
+    @BindView(R.id.detailsOfTxt) TextView detailsOfTxt;
+    @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
+    @BindView(R.id.covidSituation) ImageView covidSituation;
+
+    private  int countryPosition;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_country);
+        ButterKnife.bind(this);
         Intent intent = getIntent();
         countryPosition = intent.getIntExtra("position",0);
-        findAllViews();
-
+        fillAllViews();
     }
-    private void findAllViews() {
+
+    private void fillAllViews() {
         setUpBottomNavigation();
-        casesTxt = findViewById(R.id.countryCasesTxt);
-        recoveredTxt = findViewById(R.id.recoveredTxt);
-        criticalTxt = findViewById(R.id.criticalTxt);
-        activeTxt = findViewById(R.id.activeTxt);
-        todayCasesTxt = findViewById(R.id.todayCasesTxt);
-        totalDeathsTxt = findViewById(R.id.deathsTxt);
-        todayDeathsTxt = findViewById(R.id.todayDeathsTxt);
-        detailsOfTxt = findViewById(R.id.detailsOfTxt);
-        barChart =(BarChart) findViewById(R.id.barChart);
         int length = CountriesActivity.countryModelsList.get(countryPosition).getCountryName().length();
         detailsOfTxt.setText(CountriesActivity.countryModelsList.get(countryPosition).getCountryName().substring(0, Math.min(length ,15)));
         casesTxt.setText(CountriesActivity.countryModelsList.get(countryPosition).getCases());
@@ -81,14 +80,12 @@ public class DetailCountryActivity extends AppCompatActivity {
         barChart.addBar(new BarModel("Cases",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getCases()),yellowColorValue));
         barChart.addBar(new BarModel("Recovered",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getRecovered()), greenColorValue));
         barChart.addBar(new BarModel("Active",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getActive()),blueColorValue));
-        barChart.addBar(new BarModel("Deaths",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getDeaths()),redColorValue));
         barChart.addBar(new BarModel("Today Cases",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getTodayCases()),magentaColorValue));
+        barChart.addBar(new BarModel("Deaths",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getDeaths()),redColorValue));
         barChart.startAnimation();
-
     }
 
     private void setUpBottomNavigation() {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
         bottomNavigation.setSelectedItemId(R.id.countries);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -124,7 +121,6 @@ public class DetailCountryActivity extends AppCompatActivity {
     }
 
     private void actualSituation(String countryName, int actual){
-        covidSituation = findViewById(R.id.covidSituation);
         final int actualCases = actual;
         HttpsTrustManager.allowAllSSL();
         String url = "https://covid-api.com/api/reports?date="+ getYesterdayDateString()+"&q="+countryName;
@@ -145,16 +141,13 @@ public class DetailCountryActivity extends AppCompatActivity {
                             else if(actualCases < previousCases){
                                 covidSituation.setImageResource(R.drawable.ic_down);
                             }
-                            else{
+                            else if( actualCases == previousCases){
                                 covidSituation.setImageResource(R.drawable.ic_equal);
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.d("debug", "catch");
-
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -173,7 +166,4 @@ public class DetailCountryActivity extends AppCompatActivity {
         cal.add(Calendar.DATE, -1);
         return dateFormat.format(cal.getTime());
     }
-
-
-
 }
