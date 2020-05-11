@@ -7,46 +7,30 @@
     android:orientation="vertical"
     tools:context=".Activities.DetailCountryActivity">
 
-    <TextView
-        android:id="@+id/detailsOfTxt"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Details of"
-        android:textAlignment="center"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
-
+        android:orientation="horizontal"
+        android:gravity="center">
         <TextView
+            android:id="@+id/detailsOfTxt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Country"
+            android:layout_height="match_parent"
+            android:text="Details of"
+            android:textAlignment="center"
+            android:textSize="30sp"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal" />
+        <ImageView
+            android:id="@+id/covidSituation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/countryNameTxt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:fontFamily="sans-serif-light"
-            android:gravity="end"
-            android:text="0"
-            android:textAlignment="textEnd"
-            android:textColor="@color/color_one"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    </LinearLayout>
 
-    </RelativeLayout>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -299,6 +283,7 @@
             android:textStyle="bold"
             android:gravity="end" />
 
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -312,6 +297,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
 
             <org.eazegraph.lib.charts.BarChart
                 android:id="@+id/barChart"

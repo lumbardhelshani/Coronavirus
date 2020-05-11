@@ -30,7 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CountriesActivity extends AppCompatActivity {
@@ -134,6 +137,7 @@ public class CountriesActivity extends AppCompatActivity {
                                 JSONObject object = jsonObject.getJSONObject("countryInfo");
                                 String flagUrl = object.getString("flag");
                                 country = new Country(flagUrl, countryName, cases, todayCases, deaths, todayDeaths, recovered, active, critical);
+                                //country.setPreviousCases(getPreviousCases(countryName));
                                 countryModelsList.add(country);
 
                             }
@@ -159,5 +163,42 @@ public class CountriesActivity extends AppCompatActivity {
         });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(request);
+    }
+
+    private void getPreviousCases(String countryName){
+
+        String url = "https://covid-api.com/api/reports?date="+ getYesterdayDateString()+"&q="+countryName;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                               // JSONArray array = new JSONArray(response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                String previous = jsonObject.getString("confirmed");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(CountriesActivity.this, "Something went wrong!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private static String getYesterdayDateString() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
     }
 }

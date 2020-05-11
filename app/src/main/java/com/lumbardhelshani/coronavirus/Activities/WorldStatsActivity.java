@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.text.Collator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
@@ -17,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,6 +31,8 @@ import org.eazegraph.lib.models.PieModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.text.CollationElementIterator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,15 +47,19 @@ public class WorldStatsActivity extends AppCompatActivity {
     PieChart pieChart;
     private String cases;
     private Date systemDate = Calendar.getInstance().getTime();
-    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     String date = df.format(systemDate);
+    private Collator MySingleton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_stats);
         findAllViews();
         getCovidData();
-        putData();
+
+            putData();
+
 
     }
 
@@ -96,6 +105,8 @@ public class WorldStatsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void getCovidData(){
         String url  = "https://corona.lmao.ninja/v2/all/";
@@ -150,14 +161,55 @@ public class WorldStatsActivity extends AppCompatActivity {
 
 
     private void putData(){
+
+     /*   try{
+            Log.d("Debug" , "HINI NE METODEEE");
+            Toast.makeText(WorldStatsActivity.this, "OnMethod",Toast.LENGTH_SHORT);
+
+
+            String url = "http://192.168.1.81/services/create_world_record.php";
+            final JSONObject jsonBody = new JSONObject("{\"cases\":\"300\" , \"date\":\"1999-01-01\"}");
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonBody , new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.d("DEBUG" , "RESPONSE " + response.toString());
+                            Toast.makeText(WorldStatsActivity.this, "OnResponse",Toast.LENGTH_SHORT);
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO: Handle error
+                            Log.d("DEBUG" , "ERROROnResponse " + error.getMessage());
+                            Toast.makeText(WorldStatsActivity.this, "OnError",Toast.LENGTH_SHORT);
+                        }
+                    });
+            requestQueue.add(jsonObjectRequest);
+
+        }catch (Exception e){
+            Log.d("DEBUG" , "Exception error " + e.getMessage());
+        }
+
+
+
+*/
+
+
+
+
         String url  = getResources().getString(R.string.urlWorld);
-        loader.start();
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        
+        /*RequestQueue requestQueue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<JsonObjectRequest>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
+                    Toast.makeText(WorldStatsActivity.this, jsonObject.toString(), Toast.LENGTH_LONG);
                     String success = jsonObject.getString("success");
                     if(success.equals("1")){
                         Toast.makeText(WorldStatsActivity.this, "Inserted Data", Toast.LENGTH_SHORT);
@@ -171,9 +223,23 @@ public class WorldStatsActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
 
-                Toast.makeText(WorldStatsActivity.this, "Something went wrong to insert data!", Toast.LENGTH_SHORT).show();
+                String body = "no content";
+                //get status code here
+                final String statusCode = String.valueOf(error.networkResponse.statusCode);
+                //get response body and parse with appropriate encoding
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    // exception
+                }
+
+                Toast.makeText(WorldStatsActivity.this, "Something went wrong to insert data!" + body, Toast.LENGTH_SHORT).show();
             }
+
         })
         {
             @Override
@@ -184,7 +250,48 @@ public class WorldStatsActivity extends AppCompatActivity {
                 return params;
             }
         };
-        requestQueue.add(request);
+        requestQueue.add(request);*/
+
+
+    /*    // Log.i(TAG,"updateType");
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                // running on main thread-------
+                try {
+                    JSONObject res = new JSONObject(response);
+                    res.getString("result");
+                    System.out.println("Response:" + res.getString("result"));
+
+                }else{
+                    CustomTast ct=new CustomTast(context);
+                    ct.showCustomAlert("Network/Server Disconnected",R.drawable.disconnect);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                //Log.e("Response", "==> " + e.getMessage());
+            }
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError volleyError) {
+            // running on main thread-------
+            VolleyLog.d(TAG, "Error: " + volleyError.getMessage());
+
+        }
+    }) {
+        protected Map<String, String> getParams() {
+            HashMap<String, String> hashMapParams = new HashMap<String, String>();
+            hashMapParams.put("cases", "10");
+            hashMapParams.put("date", "1999-01-01");
+            System.out.println("Hashmap:" + hashMapParams);
+            return hashMapParams;
+        }
+    };
+     AppController.getInstance().addToRequestQueue(request);*/
 
     }
 }
