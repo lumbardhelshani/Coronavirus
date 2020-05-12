@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.R;
 
 import butterknife.BindView;
@@ -18,12 +21,14 @@ import butterknife.ButterKnife;
 public class HealthCareActivity extends AppCompatActivity {
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
     @BindView(R.id.healthcareLayout) RelativeLayout healthcareLayout;
+    @BindView(R.id.healthcaseScroll) ScrollView healthcareScroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_care);
         ButterKnife.bind(this);
         setSwipeListener();
+
         setUpBottomNavigation();
     }
 
@@ -33,10 +38,19 @@ public class HealthCareActivity extends AppCompatActivity {
 
             public void onSwipeRight() {
                 startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HealthCareActivity.this, "SYMPTOMS", Toast.LENGTH_SHORT).show();
             }
         });
+        healthcareScroll.setOnTouchListener(new OnSwipeTouchListener(HealthCareActivity.this) {
+
+            public void onSwipeRight() {
+                startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                Toast.makeText(HealthCareActivity.this, "SYMPTOMS", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
 
     private void setUpBottomNavigation() {
         bottomNavigation.setSelectedItemId(R.id.healthcare);

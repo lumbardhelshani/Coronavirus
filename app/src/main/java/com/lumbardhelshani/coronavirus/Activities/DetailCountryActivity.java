@@ -21,6 +21,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
+import com.lumbardhelshani.coronavirus.Managers.HttpsTrustManager;
 import com.lumbardhelshani.coronavirus.R;
 
 import org.eazegraph.lib.charts.BarChart;
@@ -69,11 +71,11 @@ public class DetailCountryActivity extends AppCompatActivity {
 
             public void onSwipeRight() {
                 startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailCountryActivity.this, "WORLD", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeLeft() {
                 startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailCountryActivity.this, "SYMPTOMS", Toast.LENGTH_SHORT).show();
             }
 
 

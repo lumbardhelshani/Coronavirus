@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.R;
 
 import butterknife.BindView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         launchLayout.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             public void onSwipeLeft() {
                 startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
+                Toast.makeText(MainActivity.this, "WORLD", Toast.LENGTH_SHORT).show();
             }
         });
     }

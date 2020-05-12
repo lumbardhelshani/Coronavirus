@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.R;
 
 import butterknife.BindView;
@@ -18,6 +21,7 @@ import butterknife.ButterKnife;
 public class SymptomsActivity extends AppCompatActivity {
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
     @BindView(R.id.symptomsLayout) RelativeLayout symptomsLayout;
+    @BindView(R.id.symptomsScroll) ScrollView symptomsScroll;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,11 +37,24 @@ public class SymptomsActivity extends AppCompatActivity {
 
             public void onSwipeRight() {
                 startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SymptomsActivity.this, "COUNTRIES", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeLeft() {
                 startActivity(new Intent(getApplicationContext(), HealthCareActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SymptomsActivity.this, "HEALTHCARE", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        symptomsScroll.setOnTouchListener(new OnSwipeTouchListener(SymptomsActivity.this) {
+
+            public void onSwipeRight() {
+                startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                Toast.makeText(SymptomsActivity.this, "COUNTRIES", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                startActivity(new Intent(getApplicationContext(), HealthCareActivity.class));
+                Toast.makeText(SymptomsActivity.this, "HEALTHCARE", Toast.LENGTH_SHORT).show();
             }
 
 

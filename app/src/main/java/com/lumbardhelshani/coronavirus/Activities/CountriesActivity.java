@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,29 +16,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.lumbardhelshani.coronavirus.Adapters.CountryListAdapter;
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.Models.Country;
 import com.lumbardhelshani.coronavirus.Models.CountryCovidData;
 import com.lumbardhelshani.coronavirus.R;
 import com.lumbardhelshani.coronavirus.Retrofit.CovidService;
 import com.lumbardhelshani.coronavirus.Retrofit.RetrofitClient;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -104,11 +91,24 @@ public class CountriesActivity extends AppCompatActivity {
 
             public void onSwipeRight() {
                 startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountriesActivity.this, "WORLD", Toast.LENGTH_SHORT).show();
             }
             public void onSwipeLeft() {
                 startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CountriesActivity.this, "SYMPTOMS", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        listView.setOnTouchListener(new OnSwipeTouchListener(CountriesActivity.this) {
+
+            public void onSwipeRight() {
+                startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
+                Toast.makeText(CountriesActivity.this, "WORLD", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                Toast.makeText(CountriesActivity.this, "SYMPTOMS", Toast.LENGTH_SHORT).show();
             }
 
 

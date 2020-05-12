@@ -6,9 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.Collator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -16,15 +14,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
+import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.Models.WorldCovidData;
 import com.lumbardhelshani.coronavirus.R;
 import com.lumbardhelshani.coronavirus.Retrofit.CovidService;
@@ -32,16 +24,10 @@ import com.lumbardhelshani.coronavirus.Retrofit.RetrofitClient;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.text.CollationElementIterator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,16 +65,13 @@ public class WorldStatsActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setSwipeListener() {
         worldStatsLayout.setOnTouchListener(new OnSwipeTouchListener(WorldStatsActivity.this) {
 
-            public void onSwipeRight() {
-
-                Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
-            }
             public void onSwipeLeft() {
                 startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
-                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WorldStatsActivity.this, "COUNTRIES", Toast.LENGTH_SHORT).show();
             }
 
 

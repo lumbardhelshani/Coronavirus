@@ -1,4 +1,4 @@
-package com.lumbardhelshani.coronavirus.Activities;
+package com.lumbardhelshani.coronavirus.Managers;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;

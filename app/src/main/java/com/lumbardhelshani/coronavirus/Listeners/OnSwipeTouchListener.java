@@ -1,4 +1,4 @@
-package com.lumbardhelshani.coronavirus.Activities;
+package com.lumbardhelshani.coronavirus.Listeners;
 /* user: lumba
    date: 5/12/2020
    time: 00:43
