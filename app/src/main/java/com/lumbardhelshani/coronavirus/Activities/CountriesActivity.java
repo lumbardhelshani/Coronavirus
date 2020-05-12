@@ -3,6 +3,7 @@ package com.lumbardhelshani.coronavirus.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -49,6 +51,7 @@ public class CountriesActivity extends AppCompatActivity {
     @BindView(R.id.searchEditTxt) EditText searchEditTxt;
     @BindView(R.id.listView) ListView listView;
     @BindView(R.id.loader) SimpleArcLoader loader;
+    @BindView(R.id.countriesLayout) RelativeLayout countriesLayout;
     public static List<Country> countryModelsList = new ArrayList<>();
     Country country;
     CountryListAdapter adapter;
@@ -63,6 +66,7 @@ public class CountriesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setUpBottomNavigation();
         getCountryCovidData();
+        setSwipeListener();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,6 +76,11 @@ public class CountriesActivity extends AppCompatActivity {
             }
         });
 
+        setSearchEditTxtListener();
+
+
+    }
+    private void setSearchEditTxtListener() {
         searchEditTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,6 +95,23 @@ public class CountriesActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
             }
+        });
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setSwipeListener() {
+        countriesLayout.setOnTouchListener(new OnSwipeTouchListener(CountriesActivity.this) {
+
+            public void onSwipeRight() {
+                startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
+                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+
+
         });
     }
 

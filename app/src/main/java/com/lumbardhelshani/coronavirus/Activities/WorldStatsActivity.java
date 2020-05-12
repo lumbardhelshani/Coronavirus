@@ -3,6 +3,7 @@ package com.lumbardhelshani.coronavirus.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.Collator;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,9 +62,11 @@ public class WorldStatsActivity extends AppCompatActivity {
     @BindView(R.id.loader) SimpleArcLoader loader;
     @BindView(R.id.scrollStatsScr) ScrollView scrollViewScr;
     @BindView(R.id.piechart) PieChart pieChart;
+    @BindView(R.id.worldStatsLayout) RelativeLayout worldStatsLayout;
 
     CovidService covidService = RetrofitClient.getRetrofitInstance().create(CovidService.class);
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +74,27 @@ public class WorldStatsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setUpBottomNavigation();
         getCovidData();
+        setSwipeListener();
+
+
     }
+
+    private void setSwipeListener() {
+        worldStatsLayout.setOnTouchListener(new OnSwipeTouchListener(WorldStatsActivity.this) {
+
+            public void onSwipeRight() {
+
+                Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                startActivity(new Intent(getApplicationContext(), CountriesActivity.class));
+                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+    }
+
 
     private void setUpBottomNavigation() {
         bottomNavigation.setSelectedItemId(R.id.world);

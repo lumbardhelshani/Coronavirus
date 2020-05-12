@@ -3,12 +3,14 @@ package com.lumbardhelshani.coronavirus.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,7 @@ public class DetailCountryActivity extends AppCompatActivity {
     @BindView(R.id.detailsOfTxt) TextView detailsOfTxt;
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
     @BindView(R.id.covidSituation) ImageView covidSituation;
+    @BindView(R.id.detailCountryLayout) LinearLayout detailCountryLayout;
 
     private  int countryPosition;
 
@@ -54,9 +57,27 @@ public class DetailCountryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_country);
         ButterKnife.bind(this);
+        setSwipeListener();
         Intent intent = getIntent();
         countryPosition = intent.getIntExtra("position",0);
         fillAllViews();
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setSwipeListener() {
+        detailCountryLayout.setOnTouchListener(new OnSwipeTouchListener(DetailCountryActivity.this) {
+
+            public void onSwipeRight() {
+                startActivity(new Intent(getApplicationContext(), WorldStatsActivity.class));
+                //Toast.makeText(WorldStatsActivity.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                startActivity(new Intent(getApplicationContext(), SymptomsActivity.class));
+                //Toast.makeText(WorldStatsActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
     }
 
     private void fillAllViews() {
