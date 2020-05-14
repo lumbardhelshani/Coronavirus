@@ -30,7 +30,9 @@ public class CountryListAdapter extends ArrayAdapter<Country> {
         this.countryModelsList = countryModelsList;
         this.countryModelsListSearched = countryModelsList;
     }
-    
+
+
+    //This method is used to return a populated view with data from list country item layout
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -62,6 +64,8 @@ public class CountryListAdapter extends ArrayAdapter<Country> {
         return position;
     }
 
+
+    //This method is used to get the filtered results when we search on the edit text
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {

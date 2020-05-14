@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HealthCareActivity extends AppCompatActivity {
+    // Bind Views with ButterKnife
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
     @BindView(R.id.healthcareLayout) RelativeLayout healthcareLayout;
     @BindView(R.id.healthcaseScroll) ScrollView healthcareScroll;
@@ -31,7 +32,7 @@ public class HealthCareActivity extends AppCompatActivity {
 
         setUpBottomNavigation();
     }
-
+    //Here is handled the swipe right and left listener
     @SuppressLint("ClickableViewAccessibility")
     private void setSwipeListener() {
         healthcareLayout.setOnTouchListener(new OnSwipeTouchListener(HealthCareActivity.this) {
@@ -51,7 +52,7 @@ public class HealthCareActivity extends AppCompatActivity {
 
     }
 
-
+    //Here is set up the bottom navigation and its item select listener
     private void setUpBottomNavigation() {
         bottomNavigation.setSelectedItemId(R.id.healthcare);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

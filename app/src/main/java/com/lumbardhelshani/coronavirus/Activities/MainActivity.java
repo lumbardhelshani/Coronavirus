@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+    // Bind Views with ButterKnife
     @BindView(R.id.launchLayout) RelativeLayout launchLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSwipeListener();
     }
-
+    //Here is handled the swipe left listener
     @SuppressLint("ClickableViewAccessibility")
     private void setSwipeListener() {
         launchLayout.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //This method is fired when we click the image button
     @OnClick(R.id.btnSeeWorldStats) void seeWorldStats(View view) {
         startActivity(new Intent(getApplicationContext(),WorldStatsActivity.class));
     }

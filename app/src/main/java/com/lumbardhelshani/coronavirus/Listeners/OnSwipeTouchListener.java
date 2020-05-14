@@ -31,7 +31,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         public boolean onDown(MotionEvent e) {
             return true;
         }
-
+        //This method is used to handle the logic of the swipe gesture
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;

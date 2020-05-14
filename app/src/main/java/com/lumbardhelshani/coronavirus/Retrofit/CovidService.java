@@ -13,6 +13,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 public interface CovidService {
 
+    //Here are the routes of the World Data API we get the data from
     @GET("all")
     Call<WorldCovidData> getWorldCovidStatistics();
 

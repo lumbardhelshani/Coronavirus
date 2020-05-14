@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,6 +15,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.leo.simplearcloader.SimpleArcLoader;
 import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
@@ -24,6 +30,7 @@ import com.lumbardhelshani.coronavirus.Retrofit.RetrofitClient;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,6 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class WorldStatsActivity extends AppCompatActivity {
+    // Bind Views with ButterKnife
     @BindView(R.id.casesTxt) TextView casesTxt;
     @BindView(R.id.recoveredTxt) TextView recoveredTxt;
     @BindView(R.id.criticalTxt) TextView criticalTxt;
@@ -50,6 +58,7 @@ public class WorldStatsActivity extends AppCompatActivity {
     @BindView(R.id.piechart) PieChart pieChart;
     @BindView(R.id.worldStatsLayout) RelativeLayout worldStatsLayout;
 
+    // Get an instance of Retrofit (It is a singeleton class)
     CovidService covidService = RetrofitClient.getRetrofitInstance().create(CovidService.class);
 
     @SuppressLint("ClickableViewAccessibility")
@@ -64,7 +73,7 @@ public class WorldStatsActivity extends AppCompatActivity {
 
 
     }
-
+    //Here is handled the swipe right and left listener
     @SuppressLint("ClickableViewAccessibility")
     private void setSwipeListener() {
         worldStatsLayout.setOnTouchListener(new OnSwipeTouchListener(WorldStatsActivity.this) {
@@ -78,7 +87,7 @@ public class WorldStatsActivity extends AppCompatActivity {
         });
     }
 
-
+    //Here is set up the bottom navigation and its item select listener
     private void setUpBottomNavigation() {
         bottomNavigation.setSelectedItemId(R.id.world);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -105,6 +114,7 @@ public class WorldStatsActivity extends AppCompatActivity {
         });
     }
 
+    //This method is used to get the data from a webservice
     private void getCovidData() {
         Call<WorldCovidData> call = covidService.getWorldCovidStatistics();
         loader.start();
@@ -126,6 +136,7 @@ public class WorldStatsActivity extends AppCompatActivity {
 
     }
 
+    //This method is used to fill all the views with the data when we get them from the webservice
     private void fillViewsWithData(WorldCovidData worldCovidData) {
         casesTxt.setText(String.valueOf(worldCovidData.getCases()));
         recoveredTxt.setText(String.valueOf(worldCovidData.getRecovered()));
@@ -145,6 +156,7 @@ public class WorldStatsActivity extends AppCompatActivity {
         scrollViewScr.setVisibility(View.VISIBLE);
     }
 
+    //This method is to get today date
     private String getTodayDate(){
         Date systemDate = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -152,136 +164,35 @@ public class WorldStatsActivity extends AppCompatActivity {
         return date;
     }
 
-    private void putData(WorldCovidData model) {
 
-     /*   try{
-            Log.d("Debug" , "HINI NE METODEEE");
+    //This method is used to put the data we get from the webservice to our mysql db using Laravel API
+    private void putData(WorldCovidData model) {
+        String url = "http://192.168.1.81:8000/api/";
+        try{
+            Log.d("Desbug" , "HINI NE METODEEE");
             Toast.makeText(WorldStatsActivity.this, "OnMethod",Toast.LENGTH_SHORT);
 
 
-            String url = "http://192.168.1.81/services/create_world_record.php";
-            final JSONObject jsonBody = new JSONObject("{\"cases\":\"300\" , \"date\":\"1999-01-01\"}");
+            String requestURL = url+"registerWorldCase";
+            final JSONObject jsonBody = new JSONObject("{\"cases\":\""+model.getTodayCases()+"\" , \"date\":\""+getTodayDate()+"\"}");
 
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                    (Request.Method.POST, url, jsonBody , new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("DEBUG" , "RESPONSE " + response.toString());
-                            Toast.makeText(WorldStatsActivity.this, "OnResponse",Toast.LENGTH_SHORT);
-                        }
-                    }, new Response.ErrorListener() {
-
+                    (Request.Method.POST, requestURL, jsonBody, (com.android.volley.Response.Listener<JSONObject>) response -> {
+                        Log.d("DEBUG", "RESPONSE " + response.toString());
+                        Toast.makeText(WorldStatsActivity.this, "OnResponse", Toast.LENGTH_SHORT);
+                    }, new com.android.volley.Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
-                            Log.d("DEBUG" , "ERROROnResponse " + error.getMessage());
-                            Toast.makeText(WorldStatsActivity.this, "OnError",Toast.LENGTH_SHORT);
-                        }
-                    });
+                            Log.d("DEBUG", "ERROROnResponse " + error.getMessage());
+                            Toast.makeText(WorldStatsActivity.this, "OnError", Toast.LENGTH_SHORT);
+                        }});
             requestQueue.add(jsonObjectRequest);
 
         }catch (Exception e){
             Log.d("DEBUG" , "Exception error " + e.getMessage());
         }
 
-
-
-*/
-
-
-        String url = getResources().getString(R.string.urlWorld);
-        
-        /*RequestQueue requestQueue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<JsonObjectRequest>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    Toast.makeText(WorldStatsActivity.this, jsonObject.toString(), Toast.LENGTH_LONG);
-                    String success = jsonObject.getString("success");
-                    if(success.equals("1")){
-                        Toast.makeText(WorldStatsActivity.this, "Inserted Data", Toast.LENGTH_SHORT);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(WorldStatsActivity.this, "Error in inserting data", Toast.LENGTH_SHORT);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error == null || error.networkResponse == null) {
-                    return;
-                }
-
-                String body = "no content";
-                //get status code here
-                final String statusCode = String.valueOf(error.networkResponse.statusCode);
-                //get response body and parse with appropriate encoding
-                try {
-                    body = new String(error.networkResponse.data,"UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    // exception
-                }
-
-                Toast.makeText(WorldStatsActivity.this, "Something went wrong to insert data!" + body, Toast.LENGTH_SHORT).show();
-            }
-
-        })
-        {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("cases" , cases);
-                params.put("date", date);
-                return params;
-            }
-        };
-        requestQueue.add(request);*/
-
-
-    /*    // Log.i(TAG,"updateType");
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                // running on main thread-------
-                try {
-                    JSONObject res = new JSONObject(response);
-                    res.getString("result");
-                    System.out.println("Response:" + res.getString("result"));
-
-                }else{
-                    CustomTast ct=new CustomTast(context);
-                    ct.showCustomAlert("Network/Server Disconnected",R.drawable.disconnect);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                //Log.e("Response", "==> " + e.getMessage());
-            }
-        }
-    }, new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError volleyError) {
-            // running on main thread-------
-            VolleyLog.d(TAG, "Error: " + volleyError.getMessage());
-
-        }
-    }) {
-        protected Map<String, String> getParams() {
-            HashMap<String, String> hashMapParams = new HashMap<String, String>();
-            hashMapParams.put("cases", "10");
-            hashMapParams.put("date", "1999-01-01");
-            System.out.println("Hashmap:" + hashMapParams);
-            return hashMapParams;
-        }
-    };
-     AppController.getInstance().addToRequestQueue(request);*/
 
     }
 }

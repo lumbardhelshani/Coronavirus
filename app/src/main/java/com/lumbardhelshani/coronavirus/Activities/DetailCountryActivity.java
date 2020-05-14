@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lumbardhelshani.coronavirus.Listeners.OnSwipeTouchListener;
 import com.lumbardhelshani.coronavirus.Managers.HttpsTrustManager;
+import com.lumbardhelshani.coronavirus.Models.CountryCovidData;
 import com.lumbardhelshani.coronavirus.R;
 
 import org.eazegraph.lib.charts.BarChart;
@@ -34,11 +35,13 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailCountryActivity extends AppCompatActivity {
+    // Bind Views with ButterKnife
     @BindView(R.id.barChart) BarChart barChart;
     @BindView(R.id.countryCasesTxt) TextView casesTxt;
     @BindView(R.id.recoveredTxt) TextView recoveredTxt;
@@ -65,6 +68,7 @@ public class DetailCountryActivity extends AppCompatActivity {
         fillAllViews();
     }
 
+    //Here is handled the swipe right and left listener
     @SuppressLint("ClickableViewAccessibility")
     private void setSwipeListener() {
         detailCountryLayout.setOnTouchListener(new OnSwipeTouchListener(DetailCountryActivity.this) {
@@ -81,7 +85,7 @@ public class DetailCountryActivity extends AppCompatActivity {
 
         });
     }
-
+    //This method fill all views in the detail country activity layout with data
     private void fillAllViews() {
         setUpBottomNavigation();
         int length = CountriesActivity.countryModelsList.get(countryPosition).getCountryName().length();
@@ -93,6 +97,8 @@ public class DetailCountryActivity extends AppCompatActivity {
         todayCasesTxt.setText(CountriesActivity.countryModelsList.get(countryPosition).getTodayCases());
         totalDeathsTxt.setText(CountriesActivity.countryModelsList.get(countryPosition).getDeaths());
         todayDeathsTxt.setText(CountriesActivity.countryModelsList.get(countryPosition).getTodayDeaths());
+
+        putCountryData(CountriesActivity.countryModelsList.get(countryPosition).getCountryName(), CountriesActivity.countryModelsList.get(countryPosition).getTodayDeaths());
         int redColorValue = Color.RED;
         int yellowColorValue = Color.YELLOW;
         int greenColorValue = Color.GREEN;
@@ -100,6 +106,8 @@ public class DetailCountryActivity extends AppCompatActivity {
         int magentaColorValue = Color.MAGENTA;
         int actualCases = Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getTodayCases());
         actualSituation(CountriesActivity.countryModelsList.get(countryPosition).getCountryName(),  actualCases);
+
+        //Below the barchart is constructed to display the statistics for the specific country
         barChart.addBar(new BarModel("Cases",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getCases()),yellowColorValue));
         barChart.addBar(new BarModel("Recovered",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getRecovered()), greenColorValue));
         barChart.addBar(new BarModel("Active",Integer.parseInt(CountriesActivity.countryModelsList.get(countryPosition).getActive()),blueColorValue));
@@ -108,6 +116,7 @@ public class DetailCountryActivity extends AppCompatActivity {
         barChart.startAnimation();
     }
 
+    //Here is set up the bottom navigation and its item select listener
     private void setUpBottomNavigation() {
         bottomNavigation.setSelectedItemId(R.id.countries);
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -143,6 +152,7 @@ public class DetailCountryActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //This methods get data from a web service for yesterday cases to compare with today and then based on the comparision sets a different image
     private void actualSituation(String countryName, int actual){
         final int actualCases = actual;
         HttpsTrustManager.allowAllSSL();
@@ -183,10 +193,48 @@ public class DetailCountryActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
+    //This method is used to get yesterday date
     private String getYesterdayDateString() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         return dateFormat.format(cal.getTime());
+    }
+
+    //This method is used to put the data for that specific country to mysql db using the Laravel API
+    private void putCountryData(String name, String cases) {
+        String url = "http://192.168.1.81:8000/api/";
+        try{
+            Log.d("Debug" , "HINI NE METODEEE");
+            Toast.makeText(DetailCountryActivity.this, "OnMethod",Toast.LENGTH_SHORT);
+
+
+            String requestURL = url+"registerCountryCase";
+            final JSONObject jsonBody = new JSONObject("{\"countryName\":\""+name+"\" ,\"cases\":\""+cases+"\" , \"date\":\""+getTodayDate()+"\"}");
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, requestURL, jsonBody, (com.android.volley.Response.Listener<JSONObject>) response -> {
+                        Log.d("DEBUG", "RESPONSE " + response.toString());
+                        Toast.makeText(DetailCountryActivity.this, "OnResponse", Toast.LENGTH_SHORT);
+                    }, new com.android.volley.Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("DEBUG", "ERROROnResponse " + error.getMessage());
+                            Toast.makeText(DetailCountryActivity.this, "OnError", Toast.LENGTH_SHORT);
+                        }});
+            requestQueue.add(jsonObjectRequest);
+
+        }catch (Exception e){
+            Log.d("DEBUG" , "Exception error " + e.getMessage());
+        }
+    }
+
+    //This method returns today date in string
+    private String getTodayDate(){
+        Date systemDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(systemDate);
+        return date;
     }
 }

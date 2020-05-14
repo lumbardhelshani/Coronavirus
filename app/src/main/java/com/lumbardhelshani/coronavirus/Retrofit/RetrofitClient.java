@@ -10,6 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
+    //This is a singleton class to make the http requests
     private static Retrofit retrofit = null;
 
     private RetrofitClient(){    }
