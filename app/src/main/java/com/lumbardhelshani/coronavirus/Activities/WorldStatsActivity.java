@@ -83,7 +83,6 @@ public class WorldStatsActivity extends AppCompatActivity {
                 Toast.makeText(WorldStatsActivity.this, "COUNTRIES", Toast.LENGTH_SHORT).show();
             }
 
-
         });
     }
 
@@ -130,6 +129,7 @@ public class WorldStatsActivity extends AppCompatActivity {
                 loader.stop();
                 loader.setVisibility(View.GONE);
                 scrollViewScr.setVisibility(View.VISIBLE);
+                Log.d("testing12", "Error msg: " + t.getMessage(), t);
                 Toast.makeText(WorldStatsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -169,7 +169,7 @@ public class WorldStatsActivity extends AppCompatActivity {
     private void putData(WorldCovidData model) {
         String url = "http://192.168.1.81:8000/api/";
         try{
-            Log.d("Desbug" , "HINI NE METODEEE");
+            Log.d("Debug" , "Put Data");
             Toast.makeText(WorldStatsActivity.this, "OnMethod",Toast.LENGTH_SHORT);
 
 
