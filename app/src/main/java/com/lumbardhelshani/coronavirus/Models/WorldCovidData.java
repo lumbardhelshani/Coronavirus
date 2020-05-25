@@ -18,7 +18,6 @@ public class WorldCovidData {
     private long tests;
     private double testsPerOneMillion;
     private long affectedCountries;
-
     public String getUpdated() { return updated; }
     public void setUpdated(String value) { this.updated = value; }
 
