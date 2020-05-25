@@ -13,8 +13,8 @@ public class WorldCovidData {
     private long recovered;
     private long active;
     private long critical;
-    private long casesPerOneMillion;
-    private long deathsPerOneMillion;
+    private double casesPerOneMillion;
+    private double deathsPerOneMillion;
     private long tests;
     private double testsPerOneMillion;
     private long affectedCountries;
@@ -43,11 +43,11 @@ public class WorldCovidData {
     public long getCritical() { return critical; }
     public void setCritical(long value) { this.critical = value; }
 
-    public long getCasesPerOneMillion() { return casesPerOneMillion; }
-    public void setCasesPerOneMillion(long value) { this.casesPerOneMillion = value; }
+    public double getCasesPerOneMillion() { return casesPerOneMillion; }
+    public void setCasesPerOneMillion(double value) { this.casesPerOneMillion = value; }
 
-    public long getDeathsPerOneMillion() { return deathsPerOneMillion; }
-    public void setDeathsPerOneMillion(long value) { this.deathsPerOneMillion = value; }
+    public double getDeathsPerOneMillion() { return deathsPerOneMillion; }
+    public void setDeathsPerOneMillion(double value) { this.deathsPerOneMillion = value; }
 
     public long getTests() { return tests; }
     public void setTests(long value) { this.tests = value; }

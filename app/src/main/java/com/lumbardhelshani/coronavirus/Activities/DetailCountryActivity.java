@@ -174,7 +174,7 @@ public class DetailCountryActivity extends AppCompatActivity {
                             else if(actualCases < previousCases){
                                 covidSituation.setImageResource(R.drawable.ic_down);
                             }
-                            else if( actualCases == previousCases){
+                            else {
                                 covidSituation.setImageResource(R.drawable.equal);
                             }
                         } catch (JSONException e) {

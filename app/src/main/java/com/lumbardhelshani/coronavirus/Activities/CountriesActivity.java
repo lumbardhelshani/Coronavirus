@@ -50,7 +50,7 @@ public class CountriesActivity extends AppCompatActivity {
     // Bind Views with ButterKnife
     @BindView(R.id.searchEditTxt) EditText searchEditTxt;
     @BindView(R.id.listView) ListView listView;
-    @BindView(R.id.loader) SimpleArcLoader loader;
+    @BindView(R.id.countriesLoader) SimpleArcLoader loader;
     @BindView(R.id.countriesLayout) RelativeLayout countriesLayout;
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
 

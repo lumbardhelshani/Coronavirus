@@ -18,8 +18,8 @@ public class CountryCovidData {
     private long recovered;
     private long active;
     private long critical;
-    private long casesPerOneMillion;
-    private long deathsPerOneMillion;
+    private double casesPerOneMillion;
+    private double deathsPerOneMillion;
     private long tests;
     private long testsPerOneMillion;
     private Continent continent;
@@ -104,19 +104,19 @@ public class CountryCovidData {
         this.critical = value;
     }
 
-    public long getCasesPerOneMillion() {
+    public double getCasesPerOneMillion() {
         return casesPerOneMillion;
     }
 
-    public void setCasesPerOneMillion(long value) {
+    public void setCasesPerOneMillion(double value) {
         this.casesPerOneMillion = value;
     }
 
-    public long getDeathsPerOneMillion() {
+    public double getDeathsPerOneMillion() {
         return deathsPerOneMillion;
     }
 
-    public void setDeathsPerOneMillion(long value) {
+    public void setDeathsPerOneMillion(double value) {
         this.deathsPerOneMillion = value;
     }
 

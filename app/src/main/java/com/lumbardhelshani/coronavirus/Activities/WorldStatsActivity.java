@@ -53,7 +53,7 @@ public class WorldStatsActivity extends AppCompatActivity {
     @BindView(R.id.todayDeathsTxt) TextView todayDeathsTxt;
     @BindView(R.id.affectedCountriesTxt) TextView affectedCountriesTxt;
     @BindView(R.id.bottomNavigation) BottomNavigationView bottomNavigation;
-    @BindView(R.id.loader) SimpleArcLoader loader;
+    @BindView(R.id.worldStatisticsLoader) SimpleArcLoader loader;
     @BindView(R.id.scrollStatsScr) ScrollView scrollViewScr;
     @BindView(R.id.piechart) PieChart pieChart;
     @BindView(R.id.worldStatsLayout) RelativeLayout worldStatsLayout;
@@ -129,7 +129,7 @@ public class WorldStatsActivity extends AppCompatActivity {
                 loader.stop();
                 loader.setVisibility(View.GONE);
                 scrollViewScr.setVisibility(View.VISIBLE);
-                Log.d("testing12", "Error msg: " + t.getMessage(), t);
+                Log.d("Debug", "Error msg: " + t.getMessage(), t);
                 Toast.makeText(WorldStatsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });

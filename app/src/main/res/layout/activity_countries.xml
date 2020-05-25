@@ -55,13 +55,13 @@
     </androidx.cardview.widget.CardView>
 
     <com.leo.simplearcloader.SimpleArcLoader
-        android:id="@+id/loader"
+        android:visibility="visible"
+        android:id="@+id/countriesLoader"
+        android:layout_centerInParent="true"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        app:arc_style="simple_arc"
-        android:visibility="visible"
-        app:arc_colors="@color/colorGreen"
-        android:layout_centerInParent="true"/>
+        app:arc_style="simple_arc" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_height="wrap_content"
